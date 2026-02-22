@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MR. SCOUTING | Análisis Táctico de Élite</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#162d9c",
+                        "accent": "#bef264", // Lime green for data/highlights
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0a0f1e",
+                        "surface-dark": "#161b2e",
+                        "border-dark": "#252b46",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .radar-grid {
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+        }
+        .glass {
+            background: rgba(22, 27, 46, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(37, 43, 70, 0.5);
+        }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Navigation -->
+<nav class="sticky top-0 z-50 glass border-b border-border-dark px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-accent text-3xl">analytics</span>
+<span class="font-bold text-xl tracking-tighter">MR. <span class="text-primary dark:text-blue-500">SCOUTING</span></span>
+</div>
+<div class="hidden md:flex gap-6 text-sm font-medium">
+<a class="hover:text-accent transition-colors" href="#">Scouting</a>
+<a class="hover:text-accent transition-colors" href="#">Táctica</a>
+<a class="hover:text-accent transition-colors" href="#">Metodología</a>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg text-sm font-bold transition-all">
+            Login
+        </button>
+</nav>
+<main class="flex-1">
+<!-- Hero Section -->
+<section class="relative overflow-hidden pt-16 pb-24 px-4">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#162d9c33_0%,transparent_70%)] pointer-events-none"></div>
+<!-- Tactical Pattern Overlay -->
+<div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(#bef264 1px, transparent 1px); background-size: 40px 40px;"></div>
+<div class="max-w-4xl mx-auto text-center relative z-10">
+<div class="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 text-blue-400 px-3 py-1 rounded-full text-xs font-bold mb-6">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+</span>
+                    NUEVA DATA DISPONIBLE: TOP 5 LIGAS
+                </div>
+<h1 class="text-4xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
+                    El Análisis Táctico que el <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-accent">Fútbol Exige</span>
+</h1>
+<p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                    Transformamos la intuición en datos accionables. Accede al scouting profesional de élite con herramientas de profundidad táctica de última generación.
+                </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<button class="w-full sm:w-auto bg-primary hover:scale-105 transition-transform text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2">
+                        Comienza Gratis <span class="material-symbols-outlined">trending_flat</span>
+</button>
+<button class="w-full sm:w-auto glass hover:bg-surface-dark/80 px-8 py-4 rounded-xl font-bold text-lg">
+                        Ver Demo
+                    </button>
+</div>
+</div>
+</section>
+<!-- Vistazo Inicial (The Hook) -->
+<section class="py-20 px-4 bg-surface-dark/30">
+<div class="max-w-6xl mx-auto">
+<div class="flex flex-col lg:flex-row gap-12 items-center">
+<div class="lg:w-1/2">
+<h2 class="text-3xl font-bold mb-6">Vistazo Inicial: <span class="text-accent">Métricas de Elite</span></h2>
+<p class="text-slate-400 mb-8 leading-relaxed">
+                            Nuestros algoritmos procesan más de 2,000 eventos por partido para crear perfiles de rendimiento precisos. Visualiza la superioridad táctica antes de que suceda en el campo.
+                        </p>
+<div class="space-y-4">
+<div class="flex items-center gap-4 p-4 glass rounded-xl border-l-4 border-accent">
+<span class="material-symbols-outlined text-accent">verified</span>
+<div>
+<h4 class="font-bold">Análisis de Perfil Híbrido</h4>
+<p class="text-xs text-slate-400">Identificación de roles tácticos modernos.</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 glass rounded-xl">
+<span class="material-symbols-outlined text-primary">lock</span>
+<div class="opacity-50">
+<h4 class="font-bold">Predicción de Valor de Mercado</h4>
+<p class="text-xs text-slate-400">Solo disponible en Plan Pro.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Radar Chart Mockup -->
+<div class="lg:w-1/2 w-full relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+<div class="relative glass p-8 rounded-2xl border border-border-dark overflow-hidden">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="text-xl font-bold">WONDERKID #042</h3>
+<p class="text-accent text-sm font-medium">Extremo Invertido | 19 años</p>
+</div>
+<div class="bg-accent/20 text-accent px-2 py-1 rounded text-[10px] font-bold">CONFIDENCIAL</div>
+</div>
+<!-- Radar Web Visual -->
+<div class="relative w-64 h-64 mx-auto mb-8">
+<div class="absolute inset-0 border border-slate-700/50 radar-grid scale-100"></div>
+<div class="absolute inset-0 border border-slate-700/50 radar-grid scale-[0.8]"></div>
+<div class="absolute inset-0 border border-slate-700/50 radar-grid scale-[0.6]"></div>
+<div class="absolute inset-0 border border-slate-700/50 radar-grid scale-[0.4]"></div>
+<div class="absolute inset-0 border border-slate-700/50 radar-grid scale-[0.2]"></div>
+<!-- Data Shape -->
+<div class="absolute inset-0 bg-accent/30 radar-grid scale-[0.85] border-2 border-accent" style="clip-path: polygon(50% 10%, 90% 40%, 75% 90%, 25% 85%, 15% 35%);"></div>
+<span class="absolute top-[-20px] left-1/2 -translate-x-1/2 text-[10px] font-bold">RITMO</span>
+<span class="absolute top-[30%] right-[-30px] text-[10px] font-bold">VISIÓN</span>
+<span class="absolute bottom-[0px] right-[0px] text-[10px] font-bold">REGATE</span>
+<span class="absolute bottom-[0px] left-[0px] text-[10px] font-bold">DEFENSA</span>
+<span class="absolute top-[30%] left-[-35px] text-[10px] font-bold">FÍSICO</span>
+</div>
+<div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-surface-dark to-transparent flex items-end justify-center pb-6">
+<button class="bg-primary text-white px-6 py-2 rounded-lg font-bold flex items-center gap-2 shadow-xl">
+<span class="material-symbols-outlined text-sm">lock_open</span> Desbloquear Reporte
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Core Sections Cards -->
+<section class="py-24 px-4">
+<div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="p-8 rounded-2xl border border-border-dark bg-surface-dark/20 hover:border-primary/50 transition-all group">
+<span class="material-symbols-outlined text-4xl text-primary mb-6 group-hover:scale-110 transition-transform inline-block">person_search</span>
+<h3 class="text-xl font-bold mb-4">Análisis de Jugador</h3>
+<p class="text-slate-400 text-sm leading-relaxed">Informes detallados con métricas avanzadas (xG, xA, Progresión de balón) y mapas de calor interactivos.</p>
+</div>
+<div class="p-8 rounded-2xl border border-border-dark bg-surface-dark/20 hover:border-primary/50 transition-all group">
+<span class="material-symbols-outlined text-4xl text-primary mb-6 group-hover:scale-110 transition-transform inline-block">strategy</span>
+<h3 class="text-xl font-bold mb-4">Táctica y ABP</h3>
+<p class="text-slate-400 text-sm leading-relaxed">Desglose de sistemas de juego, transiciones y jugadas de estrategia a balón parado (ABP).</p>
+</div>
+<div class="p-8 rounded-2xl border border-border-dark bg-surface-dark/20 hover:border-primary/50 transition-all group">
+<span class="material-symbols-outlined text-4xl text-primary mb-6 group-hover:scale-110 transition-transform inline-block">school</span>
+<h3 class="text-xl font-bold mb-4">Metodología</h3>
+<p class="text-slate-400 text-sm leading-relaxed">Aprende los procesos de trabajo de los scouts de élite para profesionalizar tu propio análisis.</p>
+</div>
+</div>
+</section>
+<!-- Pricing Matrix -->
+<section class="py-24 px-4 bg-background-dark relative">
+<div class="max-w-6xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold mb-4">Planes de Suscripción</h2>
+<p class="text-slate-400">Escala tu carrera en el análisis futbolístico</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Basic -->
+<div class="p-8 rounded-2xl border border-border-dark flex flex-col h-full">
+<div class="mb-8">
+<h3 class="text-lg font-bold mb-2">Principiante</h3>
+<div class="text-3xl font-bold">$0 <span class="text-sm font-normal text-slate-500">/ mes</span></div>
+</div>
+<ul class="space-y-4 mb-8 flex-1">
+<li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-accent text-sm">check_circle</span> 5 Reportes públicos/mes</li>
+<li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-accent text-sm">check_circle</span> Dashboard básico</li>
+<li class="flex items-center gap-3 text-sm text-slate-500 line-through"><span class="material-symbols-outlined text-sm">close</span> Permiso de creador</li>
+</ul>
+<button class="w-full py-3 rounded-lg border border-border-dark font-bold hover:bg-slate-800 transition-colors">Empezar Ahora</button>
+</div>
+<!-- Semi Pro -->
+<div class="p-8 rounded-2xl border-2 border-primary bg-primary/5 relative flex flex-col h-full scale-105 shadow-2xl">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Recomendado</div>
+<div class="mb-8">
+<h3 class="text-lg font-bold mb-2">Semi Pro</h3>
+<div class="text-3xl font-bold">$19 <span class="text-sm font-normal text-slate-500">/ mes</span></div>
+</div>
+<ul class="space-y-4 mb-8 flex-1">
+<li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-accent text-sm">check_circle</span> Reportes ilimitados</li>
+<li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-accent text-sm">check_circle</span> Filtros avanzados de liga</li>
+<li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-accent text-sm">check_circle</span> Permiso de creador</li>
+<li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-accent text-sm">check_circle</span> Acceso a la Comunidad</li>
+</ul>
+<button class="w-full py-3 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 transition-colors">Seleccionar Plan</button>
+</div>
+<!-- Pro -->
+<div class="p-8 rounded-2xl border border-border-dark flex flex-col h-full">
+<div class="mb-8">
+<h3 class="text-lg font-bold mb-2">Pro</h3>
+<div class="text-3xl font-bold">$49 <span class="text-sm font-normal text-slate-500">/ mes</span></div>
+</div>
+<ul class="space-y-4 mb-8 flex-1">
+<li class="flex items-center gap-3 text-sm font-bold text-accent"><span class="material-symbols-outlined text-sm">star</span> Networking Directo</li>
+<li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-accent text-sm">check_circle</span> Todo lo de Semi Pro</li>
+<li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-accent text-sm">check_circle</span> Consultoría Personalizada</li>
+<li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-accent text-sm">check_circle</span> Exportación en PDF/JSON</li>
+</ul>
+<button class="w-full py-3 rounded-lg border border-border-dark font-bold hover:bg-slate-800 transition-colors">Ir a Pro</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Onboarding/Segmentation Teaser -->
+<section class="py-24 px-4 border-t border-border-dark">
+<div class="max-w-4xl mx-auto text-center">
+<h2 class="text-2xl font-bold mb-10">Dinos quién eres y personaliza tu panel</h2>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<button class="flex flex-col items-center gap-4 p-6 rounded-xl border border-border-dark hover:bg-primary/10 hover:border-primary transition-all group">
+<div class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-3xl">sports_soccer</span>
+</div>
+<span class="font-bold">Aficionado</span>
+</button>
+<button class="flex flex-col items-center gap-4 p-6 rounded-xl border border-border-dark hover:bg-primary/10 hover:border-primary transition-all group">
+<div class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-3xl">history_edu</span>
+</div>
+<span class="font-bold">Estudiante</span>
+</button>
+<button class="flex flex-col items-center gap-4 p-6 rounded-xl border border-border-dark hover:bg-primary/10 hover:border-primary transition-all group">
+<div class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-3xl">badge</span>
+</div>
+<span class="font-bold">Profesional</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-dark py-12 px-4 border-t border-border-dark">
+<div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-accent text-2xl">analytics</span>
+<span class="font-bold text-lg tracking-tighter uppercase">MR. SCOUTING</span>
+</div>
+<div class="text-slate-500 text-sm">
+                © 2024 MR. SCOUTING. Todos los derechos reservados.
+            </div>
+<div class="flex gap-6">
+<a class="text-slate-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="text-slate-400 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+</div>
+</div>
+</footer>
+<!-- Bottom Nav (Mobile Only) -->
+<div class="md:hidden sticky bottom-0 z-50 glass border-t border-border-dark px-6 py-3 flex items-center justify-between">
+<a class="flex flex-col items-center text-accent" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold uppercase mt-1">Inicio</span>
+</a>
+<a class="flex flex-col items-center text-slate-400" href="#">
+<span class="material-symbols-outlined">radar</span>
+<span class="text-[10px] font-bold uppercase mt-1">Scouting</span>
+</a>
+<a class="flex flex-col items-center text-slate-400" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="text-[10px] font-bold uppercase mt-1">Informes</span>
+</a>
+<a class="flex flex-col items-center text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold uppercase mt-1">Perfil</span>
+</a>
+</div>
+</body></html>
