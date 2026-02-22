@@ -129,10 +129,18 @@ export default function LandingPage() {
                         </div>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                            <button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 shadow-2xl shadow-blue-900/30 transition-all active:scale-95 group">
+                            <button
+                                onClick={() => setIsAuthOpen(true)}
+                                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 shadow-2xl shadow-blue-900/30 transition-all active:scale-95 group"
+                            >
                                 Comienza Gratis <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                             </button>
-                            <button className="w-full sm:w-auto glass hover:bg-white/5 px-8 py-4 rounded-xl font-bold text-lg transition-all text-white border border-[#252b46]">
+                            <button
+                                onClick={() => {
+                                    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                                className="w-full sm:w-auto glass hover:bg-white/5 px-8 py-4 rounded-xl font-bold text-lg transition-all text-white border border-[#252b46]"
+                            >
                                 Ver Demo
                             </button>
                         </div>
