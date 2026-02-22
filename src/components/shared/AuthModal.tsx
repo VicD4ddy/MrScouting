@@ -65,14 +65,14 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     };
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
             <div
                 className="absolute inset-0 bg-[#0a0f1e]/80 backdrop-blur-md"
                 onClick={onClose}
             />
 
-            <div className="w-full max-w-md relative animate-in fade-in zoom-in duration-300">
-                <div className="glass border border-[#252b46] p-6 md:p-10 rounded-[32px] md:rounded-[40px] shadow-2xl space-y-6 md:space-y-8 backdrop-blur-2xl bg-[#0a0f1e]/40">
+            <div className="w-full max-w-[440px] relative animate-in fade-in zoom-in duration-300">
+                <div className="glass border border-white/10 p-6 md:p-8 rounded-[28px] md:rounded-[36px] shadow-[0_0_80px_rgba(37,99,235,0.15)] space-y-5 md:space-y-6 backdrop-blur-3xl bg-gradient-to-b from-[#151c33]/80 to-[#0a0f1e]/95 max-h-[95vh] overflow-y-auto custom-scrollbar">
                     <button
                         onClick={onClose}
                         className="absolute top-4 right-4 md:top-6 md:right-6 text-slate-500 hover:text-white transition-colors"
@@ -80,9 +80,9 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         <X size={20} className="md:w-6 md:h-6" />
                     </button>
 
-                    <div className="text-center space-y-2 md:space-y-3">
+                    <div className="text-center space-y-2 md:space-y-2.5">
                         <div className="flex justify-center mb-4 md:mb-6">
-                            <div className="w-12 h-12 md:w-16 md:h-16 bg-[#162d9c] rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg shadow-blue-900/20 -rotate-3 transition-transform hover:rotate-0">
+                            <div className="w-10 h-10 md:w-14 md:h-14 bg-[#162d9c] rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/20 -rotate-3 transition-transform hover:rotate-0">
                                 <TrendingUp className="text-[#bef264] w-6 h-6 md:w-8 md:h-8" />
                             </div>
                         </div>
@@ -94,16 +94,16 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         </p>
                     </div>
 
-                    <div className="flex bg-[#0a0f1e] p-1 rounded-xl md:rounded-2xl border border-[#252b46]">
+                    <div className="flex bg-[#04060d]/60 p-1.5 rounded-xl md:rounded-2xl border border-white/5">
                         <button
                             onClick={() => setMode('login')}
-                            className={`flex-1 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all ${mode === 'login' ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+                            className={`flex-1 py-2.5 md:py-3 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all ${mode === 'login' ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50' : 'text-slate-500 hover:text-slate-300 hover:bg-white/5'}`}
                         >
                             Login
                         </button>
                         <button
                             onClick={() => setMode('signup')}
-                            className={`flex-1 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all ${mode === 'signup' ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+                            className={`flex-1 py-2.5 md:py-3 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all ${mode === 'signup' ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50' : 'text-slate-500 hover:text-slate-300 hover:bg-white/5'}`}
                         >
                             Registro
                         </button>
@@ -116,14 +116,14 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
                         {mode === 'signup' && (
                             <div className="space-y-1.5 md:space-y-2 animate-in slide-in-from-top-2 duration-300">
                                 <label className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Nombre Completo</label>
                                 <input
                                     type="text"
                                     required
-                                    className="w-full bg-[#0a0f1e] border border-[#252b46] rounded-xl md:rounded-2xl px-4 py-3 md:px-5 md:py-4 focus:outline-none focus:border-blue-500/50 transition-all text-white text-sm placeholder:text-slate-800"
+                                    className="w-full bg-[#04060d]/50 border border-white/10 rounded-xl px-4 py-3 md:px-5 md:py-3.5 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all text-white text-sm placeholder:text-slate-700 font-medium"
                                     placeholder="Victor Reyes"
                                     value={fullname}
                                     onChange={(e) => setFullname(e.target.value)}
@@ -170,7 +170,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 md:py-5 rounded-xl md:rounded-2xl transition-all shadow-xl shadow-blue-900/30 disabled:opacity-50 flex items-center justify-center gap-3 active:scale-[0.98] uppercase tracking-[2px] text-xs md:text-sm"
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 md:py-4 rounded-xl md:rounded-2xl transition-all shadow-xl shadow-blue-900/30 disabled:opacity-50 flex items-center justify-center gap-3 active:scale-[0.98] uppercase tracking-[2px] text-xs md:text-sm"
                         >
                             {loading ? (
                                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -183,10 +183,10 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                         </button>
                     </form>
 
-                    <div className="relative flex items-center my-6">
-                        <div className="flex-grow border-t border-[#252b46]"></div>
-                        <span className="flex-shrink-0 mx-4 text-slate-500 text-[10px] uppercase font-bold tracking-widest">O</span>
-                        <div className="flex-grow border-t border-[#252b46]"></div>
+                    <div className="relative flex items-center my-4 md:my-6 opacity-60">
+                        <div className="flex-grow border-t border-white/10"></div>
+                        <span className="flex-shrink-0 mx-4 text-slate-500 text-[10px] uppercase font-bold tracking-[0.2em]">O Continúa Con</span>
+                        <div className="flex-grow border-t border-white/10"></div>
                     </div>
 
                     <button
@@ -198,7 +198,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                                 }
                             });
                         }}
-                        className="w-full bg-white hover:bg-slate-100 text-[#0a0f1e] font-bold py-3.5 md:py-4 rounded-xl md:rounded-2xl transition-all flex items-center justify-center gap-3 active:scale-[0.98] uppercase tracking-widest text-xs shadow-lg shadow-white/5"
+                        className="w-full bg-transparent border border-white/10 hover:bg-white/5 hover:border-white/20 text-slate-200 font-bold py-3 md:py-3.5 rounded-xl md:rounded-2xl transition-all flex items-center justify-center gap-3 active:scale-[0.98] uppercase tracking-widest text-[10px] md:text-xs"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
