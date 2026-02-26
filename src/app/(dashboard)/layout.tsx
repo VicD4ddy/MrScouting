@@ -129,32 +129,28 @@ export default async function DashboardLayout({
             </div>
 
             {/* MOBILE BOTTOM NAVBAR (Dashboard Version) */}
-            <nav className="fixed bottom-0 left-0 right-0 bg-[#0a0f1e]/90 backdrop-blur-xl border-t border-[#252b46]/50 lg:hidden z-50 px-4 shadow-2xl safe-area-pb">
-                <div className="flex justify-between items-center h-20">
-                    <Link href="/dashboard" className="flex flex-col items-center gap-1.5 flex-1 transition-colors text-[#bef264]">
+            <nav className="fixed bottom-0 left-0 right-0 bg-[#0a0f1e]/95 backdrop-blur-xl border-t border-white/10 lg:hidden z-50 shadow-2xl safe-area-pb">
+                <div className="flex justify-around items-center h-[72px] px-2">
+                    <Link href="/dashboard" className="flex flex-col items-center gap-1 flex-1 transition-colors text-[#bef264]">
                         <Home className="w-5 h-5" />
-                        <span className="text-[9px] font-bold uppercase tracking-widest">Inicio</span>
+                        <span className="text-[8px] font-bold uppercase tracking-widest">Home</span>
                     </Link>
-                    <Link href="/dashboard/scouting" className="flex flex-col items-center gap-1.5 flex-1 transition-colors text-slate-500 hover:text-blue-400">
+                    <Link href="/dashboard/scouting" className="flex flex-col items-center gap-1 flex-1 transition-colors text-slate-500 hover:text-blue-400">
                         <Target className="w-5 h-5" />
-                        <span className="text-[9px] font-bold uppercase tracking-widest">Scout</span>
+                        <span className="text-[8px] font-bold uppercase tracking-widest">Scouting</span>
                     </Link>
-                    <Link href="/dashboard/reports" className="flex flex-col items-center gap-1.5 flex-1 transition-colors text-slate-500 hover:text-blue-400">
+                    <Link href="/dashboard/reports" className="flex flex-col items-center gap-1 flex-1 transition-colors text-slate-500 hover:text-blue-400">
                         <FileText className="w-5 h-5" />
-                        <span className="text-[9px] font-bold uppercase tracking-widest">Data</span>
+                        <span className="text-[8px] font-bold uppercase tracking-widest">Reports</span>
                     </Link>
-                    <Link href="/dashboard/tactics" className="flex flex-col items-center gap-1.5 flex-1 transition-colors text-slate-500 hover:text-blue-400">
-                        <Layout className="w-5 h-5" />
-                        <span className="text-[9px] font-bold uppercase tracking-widest">Táctica</span>
-                    </Link>
-                    <Link href="/dashboard/profile" className="flex flex-col items-center gap-1.5 flex-1 transition-colors text-slate-500 hover:text-blue-400">
+                    <Link href="/dashboard/profile" className="flex flex-col items-center gap-1 flex-1 transition-colors text-slate-500 hover:text-blue-400">
                         <User className="w-5 h-5" />
-                        <span className="text-[9px] font-bold uppercase tracking-widest">Perfil</span>
+                        <span className="text-[8px] font-bold uppercase tracking-widest">Profile</span>
                     </Link>
                     {user?.email === process.env.ADMIN_EMAIL && (
-                        <Link href="/dashboard/admin" className="flex flex-col items-center gap-1.5 flex-1 transition-colors text-red-500 hover:text-red-400">
+                        <Link href="/dashboard/admin" className="flex flex-col items-center gap-1 flex-1 transition-colors text-red-500 hover:text-red-400">
                             <ShieldAlert className="w-5 h-5" />
-                            <span className="text-[9px] font-bold uppercase tracking-widest">Admin</span>
+                            <span className="text-[8px] font-bold uppercase tracking-widest">Admin</span>
                         </Link>
                     )}
                 </div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { RadarChart as Radar } from "@/components/charts/RadarChart";
 import { Search, Filter, TrendingUp, Shield, Users, Target, ChevronRight, MapPin, FileText, Loader2 } from "lucide-react";
 import { createClient } from '@/lib/supabase/client';
+import Link from 'next/link';
 
 export default function ScoutingPage() {
     const [players, setPlayers] = useState<any[]>([]);
@@ -95,7 +96,7 @@ export default function ScoutingPage() {
                         ];
 
                         return (
-                            <div key={player.id} className="group relative glass border border-[#252b46] rounded-[40px] overflow-hidden hover:border-blue-500/30 transition-all duration-500 flex flex-col bg-gradient-to-br from-white/[0.02] to-transparent">
+                            <Link href={`/dashboard/scouting/${player.id}`} key={player.id} className="group relative glass border border-[#252b46] rounded-[40px] overflow-hidden hover:border-blue-500/30 transition-all duration-500 flex flex-col bg-gradient-to-br from-white/[0.02] to-transparent">
                                 <div className="absolute top-6 right-6 z-10">
                                     <div className="bg-[#bef264]/10 text-[#bef264] px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-[2px] border border-[#bef264]/20 backdrop-blur-md">
                                         RANK #{String(index + 1).padStart(2, '0')}
@@ -145,7 +146,7 @@ export default function ScoutingPage() {
                                         <FileText size={14} className="text-[#bef264]" /> Abrir Informe Técnico
                                     </button>
                                 </div>
-                            </div>
+                            </Link>
                         );
                     })}
                 </div>
