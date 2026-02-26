@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { RadarChart as Radar } from "@/components/charts/RadarChart";
-import { Search, Filter, TrendingUp, Shield, Users, Target, ChevronRight, MapPin, FileText, Loader2 } from "lucide-react";
+import { Search, Filter, TrendingUp, Shield, Users, Target, ChevronRight, MapPin, FileText, Loader2, Zap } from "lucide-react";
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 
@@ -110,7 +110,7 @@ export default function ScoutingPage() {
                                             {player.name}
                                         </h3>
                                         <div className="flex items-center gap-3 text-[10px] text-slate-500 font-bold uppercase tracking-widest">
-                                            <span className="text-blue-500">{player.position || 'Unknown'}</span>
+                                            <span className="text-blue-500">{player.position || 'Desconocido'}</span>
                                             <span className="w-1 h-1 bg-slate-800 rounded-full"></span>
                                             <span>{player.age || '--'} años</span>
                                         </div>

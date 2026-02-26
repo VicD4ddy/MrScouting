@@ -58,7 +58,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 setError(signupError.message);
                 setLoading(false);
             } else {
-                setMessage('revisa tu email para confirmar el registro');
+                router.push('/login?message=Revisa tu email para confirmar el registro');
                 setLoading(false);
             }
         }
@@ -99,7 +99,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                             onClick={() => setMode('login')}
                             className={`flex-1 py-2.5 md:py-3 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all ${mode === 'login' ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50' : 'text-slate-500 hover:text-slate-300 hover:bg-white/5'}`}
                         >
-                            Login
+                            Ingresar
                         </button>
                         <button
                             onClick={() => setMode('signup')}

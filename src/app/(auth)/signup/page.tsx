@@ -34,7 +34,7 @@ export default function SignupPage() {
             setError(signupError.message);
             setLoading(false);
         } else {
-            router.push('/login?message=Check your email to confirm registration');
+            router.push('/login?message=Revisa tu email para confirmar el registro');
         }
     };
 

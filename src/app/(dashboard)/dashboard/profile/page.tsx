@@ -149,10 +149,10 @@ export default function ProfilePage() {
 
             {/* Edit Profile Form */}
             <div className="glass border border-white/10 rounded-3xl p-6 space-y-4">
-                <h3 className="text-xs font-bold uppercase tracking-[3px] text-slate-500">Edit Profile Data</h3>
+                <h3 className="text-xs font-bold uppercase tracking-[3px] text-slate-500">Editar Datos del Perfil</h3>
                 <div className="space-y-3">
                     <div>
-                        <label className="text-[9px] font-bold uppercase tracking-widest text-slate-500 ml-1">Operating Name</label>
+                        <label className="text-[9px] font-bold uppercase tracking-widest text-slate-500 ml-1">Nombre Operativo</label>
                         <input
                             type="text"
                             placeholder={userName}
@@ -160,7 +160,7 @@ export default function ProfilePage() {
                         />
                     </div>
                     <div>
-                        <label className="text-[9px] font-bold uppercase tracking-widest text-slate-500 ml-1">Communication Link</label>
+                        <label className="text-[9px] font-bold uppercase tracking-widest text-slate-500 ml-1">Enlace de Comunicación</label>
                         <input
                             type="email"
                             value={user?.email || ''}
@@ -169,16 +169,16 @@ export default function ProfilePage() {
                         />
                     </div>
                     <div>
-                        <label className="text-[9px] font-bold uppercase tracking-widest text-slate-500 ml-1">Tactical Manifesto (Bio)</label>
+                        <label className="text-[9px] font-bold uppercase tracking-widest text-slate-500 ml-1">Manifiesto Táctico (Bio)</label>
                         <textarea
                             rows={3}
-                            placeholder="Describe your analysis methodology..."
+                            placeholder="Describe tu metodología de análisis..."
                             className="w-full mt-1.5 bg-[#04060d]/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500/50 transition-all resize-none text-white text-sm placeholder:text-slate-700 font-medium"
                         />
                     </div>
                 </div>
                 <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold text-xs tracking-widest uppercase transition-all shadow-xl shadow-blue-900/40 active:scale-95">
-                    <Save size={13} /> Save Changes
+                    <Save size={13} /> Guardar Cambios
                 </button>
             </div>
 

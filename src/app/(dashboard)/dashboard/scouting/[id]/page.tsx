@@ -11,21 +11,21 @@ const PLAYER_DATA: Record<string, any> = {
     '1': {
         name: 'João Neves',
         age: 19,
-        position: 'Midfielder',
+        position: 'Mediocampista',
         club: 'SL Benfica',
         ovr: 88,
         trend: '+4.2%',
-        trendLabel: 'season score',
-        badge: 'ELITE TALENT',
-        value: '€55M Value',
+        trendLabel: 'puntuación de temporada',
+        badge: 'TALENTO ÉLITE',
+        value: 'Valor: €55M',
         badgeColor: '#ef4444',
         stats: [
-            { attribute: 'Passing', value: 88 },
-            { attribute: 'Vision', value: 82 },
-            { attribute: 'Work Rate', value: 91 },
-            { attribute: 'Tackling', value: 74 },
-            { attribute: 'Resistance', value: 79 },
-            { attribute: 'Interceptions', value: 85 },
+            { attribute: 'Pase', value: 88 },
+            { attribute: 'Visión', value: 82 },
+            { attribute: 'Esfuerzo', value: 91 },
+            { attribute: 'Entrada', value: 74 },
+            { attribute: 'Resistencia', value: 79 },
+            { attribute: 'Intercepciones', value: 85 },
         ],
         strengths: [
             { title: 'Elite Press Resistance', desc: 'Highly composed under pressure. Neves excels at receiving the ball in tight spaces and finding progressive outlets through his short passing game.' },
@@ -67,7 +67,7 @@ const DEFAULT_PLAYER = {
     trend: '+0%',
     trendLabel: 'season score',
     badge: 'PROSPECT',
-    value: '€0M Value',
+    value: 'Valor: €0M',
     badgeColor: '#3b82f6',
     stats: [
         { attribute: 'Passing', value: 70 },
@@ -98,18 +98,18 @@ function StarRating({ rating, size = 14 }: { rating: number; size?: number }) {
     );
 }
 
-const TABS = ['Strengths', 'Weaknesses', 'Tactical Context'] as const;
+const TABS = ['Fortalezas', 'Debilidades', 'Contexto Táctico'] as const;
 type Tab = typeof TABS[number];
 
 export default function PlayerDetailPage() {
     const params = useParams();
     const id = params?.id as string;
     const player = PLAYER_DATA[id] ?? DEFAULT_PLAYER;
-    const [activeTab, setActiveTab] = useState<Tab>('Strengths');
+    const [activeTab, setActiveTab] = useState<Tab>('Fortalezas');
     const [comment, setComment] = useState('');
 
-    const tabContent = activeTab === 'Strengths' ? player.strengths
-        : activeTab === 'Weaknesses' ? player.weaknesses
+    const tabContent = activeTab === 'Fortalezas' ? player.strengths
+        : activeTab === 'Debilidades' ? player.weaknesses
             : player.tactical;
 
     return (
@@ -253,7 +253,7 @@ export default function PlayerDetailPage() {
                         type="text"
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
-                        placeholder="Write a Scout Review..."
+                        placeholder="Escribe una reseña de scout..."
                         className="flex-1 bg-transparent text-sm text-white placeholder:text-slate-700 focus:outline-none"
                     />
                     <button className="text-blue-400 hover:text-blue-300 transition-colors">

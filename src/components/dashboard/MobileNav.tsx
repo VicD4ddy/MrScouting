@@ -5,10 +5,10 @@ import { usePathname } from 'next/navigation';
 import { Home, Target, FileText, User, ShieldAlert } from 'lucide-react';
 
 const NAV_ITEMS = [
-    { href: '/dashboard', label: 'Home', icon: Home, exact: true },
+    { href: '/dashboard', label: 'Inicio', icon: Home, exact: true },
     { href: '/dashboard/scouting', label: 'Scouting', icon: Target, exact: false },
-    { href: '/dashboard/reports', label: 'Reports', icon: FileText, exact: false },
-    { href: '/dashboard/profile', label: 'Profile', icon: User, exact: false },
+    { href: '/dashboard/reports', label: 'Informes', icon: FileText, exact: false },
+    { href: '/dashboard/profile', label: 'Perfil', icon: User, exact: false },
 ];
 
 interface MobileNavProps {

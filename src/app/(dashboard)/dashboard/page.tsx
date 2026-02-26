@@ -68,7 +68,7 @@ const MOCK_POSTS = [
     },
 ];
 
-const TABS = ['All', 'Articles', 'Tactics', 'Players'];
+const TABS = ['Todo', 'Artículos', 'Tácticas', 'Jugadores'];
 
 function StarRating({ rating }: { rating: number }) {
     return (
@@ -128,12 +128,12 @@ function PostCard({ post }: { post: typeof MOCK_POSTS[0] }) {
                             {post.author[0]}
                         </div>
                         <span className="text-slate-400 text-xs font-medium">{post.author}</span>
-                        {post.isPro && (
-                            <div className="bg-blue-600/20 border border-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded text-[7px] font-bold uppercase">PRO</div>
-                        )}
                     </div>
-                    <StarRating rating={post.rating} />
+                    {post.isPro && (
+                        <div className="bg-blue-600/20 border border-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded text-[7px] font-bold uppercase">PRO</div>
+                    )}
                 </div>
+                <StarRating rating={post.rating} />
             </div>
         </Link>
     );
@@ -142,16 +142,21 @@ function PostCard({ post }: { post: typeof MOCK_POSTS[0] }) {
 export default function DashboardFeedPage() {
     const [activeTab, setActiveTab] = useState('All');
 
-    const filtered = activeTab === 'All'
+    const filtered = activeTab === 'Todo'
         ? MOCK_POSTS
-        : MOCK_POSTS.filter((p) => p.type === activeTab);
+        : MOCK_POSTS.filter((p) => {
+            if (activeTab === 'Artículos') return p.type === 'Articles';
+            if (activeTab === 'Tácticas') return p.type === 'Tactics';
+            if (activeTab === 'Jugadores') return p.type === 'Players';
+            return true;
+        });
 
     return (
         <div className="space-y-6 pb-24">
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight text-white">Intelligence Feed</h1>
+                    <h1 className="text-2xl font-bold tracking-tight text-white">Feed de Inteligencia</h1>
                     <p className="text-slate-500 text-xs font-medium mt-0.5">Análisis y reportes de la élite mundial</p>
                 </div>
                 <Link href="/dashboard/create" className="flex items-center gap-1.5 bg-blue-600/10 border border-blue-500/20 text-blue-400 px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-blue-600/20 transition-all">
@@ -167,8 +172,8 @@ export default function DashboardFeedPage() {
                         key={tab}
                         onClick={() => setActiveTab(tab)}
                         className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${activeTab === tab
-                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/40'
-                                : 'bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10'
+                            ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/40'
+                            : 'bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10'
                             }`}
                     >
                         {tab}

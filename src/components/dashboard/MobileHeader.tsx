@@ -5,21 +5,21 @@ import Link from 'next/link';
 import { TrendingUp } from 'lucide-react';
 
 const ROUTE_TITLES: Record<string, string> = {
-    '/dashboard': 'Home',
-    '/dashboard/scouting': 'Scouting',
-    '/dashboard/reports': 'Reports',
-    '/dashboard/tactics': 'Tactics',
-    '/dashboard/profile': 'Profile',
-    '/dashboard/create': 'New Analysis',
-    '/dashboard/admin': 'Admin',
+    '/dashboard': 'Inicio',
+    '/dashboard/scouting': 'Scouting Central',
+    '/dashboard/reports': 'Informes',
+    '/dashboard/tactics': 'Táctica',
+    '/dashboard/profile': 'Perfil',
+    '/dashboard/create': 'Nuevo Análisis',
+    '/dashboard/admin': 'Administración',
 };
 
 function getTitle(pathname: string): string {
     // Exact match first
     if (ROUTE_TITLES[pathname]) return ROUTE_TITLES[pathname];
     // Match dynamic segments like /dashboard/scouting/[id]
-    if (pathname.startsWith('/dashboard/scouting/')) return 'Player Profile';
-    if (pathname.startsWith('/dashboard/feed/')) return 'Intelligence';
+    if (pathname.startsWith('/dashboard/scouting/')) return 'Perfil de Jugador';
+    if (pathname.startsWith('/dashboard/feed/')) return 'Inteligencia';
     return 'MR. SCOUTING';
 }
 
@@ -41,7 +41,7 @@ export function MobileHeader({ userEmail }: MobileHeaderProps) {
                         <TrendingUp size={14} className="text-[#bef264]" />
                     </div>
                     <span className="text-xs font-black tracking-tight text-white uppercase">
-                        MR.<span className="text-blue-400">S</span>
+                        MR.<span className="text-blue-400">SCOUTING</span>
                     </span>
                 </Link>
 

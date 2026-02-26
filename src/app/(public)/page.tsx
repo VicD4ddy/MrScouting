@@ -76,7 +76,7 @@ export default function LandingPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#0a0f1e] text-slate-50 relative overflow-x-hidden selection:bg-[#bef264]/30 pb-20 md:pb-0">
+        <div className="min-h-screen bg-[#0a0f1e] text-slate-50 relative selection:bg-[#bef264]/30 pb-20 md:pb-0">
             {/* Global Background Elements */}
             <div className="fixed inset-0 tactical-pattern opacity-5 pointer-events-none z-0"></div>
             <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
@@ -102,14 +102,14 @@ export default function LandingPage() {
                         onClick={() => setIsAuthModalOpen(true)}
                         className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg text-sm font-bold transition-all shadow-xl shadow-blue-900/30 active:scale-95 uppercase tracking-wider"
                     >
-                        Login
+                        Ingresar
                     </button>
                 </div>
             </nav>
 
             <main className="relative z-10">
                 {/* STEP 0: Hero Section */}
-                <section className={`relative pt-10 md:pt-16 pb-24 px-6 md:min-h-[80vh] items-center md:flex ${mobileStep === 0 ? 'flex animate-in fade-in zoom-in-95 duration-500 min-h-[calc(100dvh-140px)]' : 'hidden'}`}>
+                <section className={`relative pt-10 md:pt-16 pb-24 px-6 md:min-h-[80vh] items-center md:flex ${mobileStep === 0 ? 'flex animate-in fade-in zoom-in-95 duration-500 min-h-[calc(100dvh-140px)] overflow-y-auto' : 'hidden'}`}>
                     <div className="max-w-4xl mx-auto text-center space-y-8">
                         <div className="inline-flex items-center gap-2 bg-blue-600/10 border border-blue-600/20 text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold shadow-2xl">
                             <span className="relative flex h-2 w-2">
@@ -148,14 +148,14 @@ export default function LandingPage() {
                 </section>
 
                 {/* Industrial Grid Wrapper for Desktop */}
-                <section className={`py-12 md:py-20 px-6 bg-[#161b2e]/30 border-y border-[#252b46]/50 relative md:block ${(mobileStep === 1 || mobileStep === 2) ? 'block animate-in fade-in slide-in-from-right-8 duration-500 min-h-[calc(100dvh-140px)] flex flex-col justify-center' : 'hidden'}`}>
+                <section className={`py-12 md:py-20 px-6 bg-[#161b2e]/30 border-y border-[#252b46]/50 relative md:block ${(mobileStep === 1 || mobileStep === 2) ? 'block animate-in fade-in slide-in-from-right-8 duration-500 min-h-[calc(100dvh-140px)] flex flex-col justify-center overflow-y-auto' : 'hidden'}`}>
                     <div className="max-w-6xl mx-auto">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
 
                             {/* STEP 1: Text Content */}
                             <div className={`space-y-10 md:block ${mobileStep === 1 ? 'block' : 'hidden'}`}>
                                 <div className="space-y-4">
-                                    <h2 className="text-3xl font-bold">Vistazo Inicial: <span className="text-[#bef264]">Métricas de Elite</span></h2>
+                                    <h2 className="text-3xl font-bold">Vistazo Inicial: <span className="text-[#bef264]">Métricas de Élite</span></h2>
                                     <p className="text-slate-400 leading-relaxed">
                                         Nuestros algoritmos procesan más de 2,000 eventos por partido para crear perfiles de rendimiento precisos. Visualiza la superioridad táctica antes de que suceda en el campo.
                                     </p>
@@ -210,7 +210,7 @@ export default function LandingPage() {
                 </section>
 
                 {/* STEP 3: Features Display */}
-                <section className={`py-6 md:py-24 px-6 md:block ${mobileStep === 3 ? 'block animate-in fade-in slide-in-from-right-8 duration-500 min-h-[calc(100dvh-140px)] md:flex md:flex-col md:justify-center' : 'hidden'}`}>
+                <section id="features" className={`py-6 md:py-24 px-6 md:block ${mobileStep === 3 ? 'block animate-in fade-in slide-in-from-right-8 duration-500 min-h-[calc(100dvh-140px)] md:flex md:flex-col md:justify-center overflow-y-auto' : 'hidden'}`}>
                     <div className="max-w-6xl mx-auto pt-4 md:pt-0">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                             {[
@@ -233,7 +233,7 @@ export default function LandingPage() {
                 </section>
 
                 {/* STEP 4: Subscription Matrix */}
-                <section id="pricing" className={`py-6 md:py-24 px-0 md:px-6 relative overflow-hidden bg-[#0a0f1e] md:block ${mobileStep === 4 ? 'block animate-in fade-in slide-in-from-right-8 duration-500 min-h-[calc(100dvh-140px)] md:flex md:flex-col md:justify-center' : 'hidden'}`}>
+                <section id="pricing" className={`py-6 md:py-24 px-0 md:px-6 relative overflow-hidden bg-[#0a0f1e] md:block ${mobileStep === 4 ? 'block animate-in fade-in slide-in-from-right-8 duration-500 min-h-[calc(100dvh-140px)] md:flex md:flex-col md:justify-center overflow-y-auto' : 'hidden'}`}>
                     <div className="max-w-6xl mx-auto space-y-10 md:space-y-16 pt-4 md:pt-0">
                         <div className="text-center space-y-4 px-6 md:px-0">
                             <h2 className="text-3xl md:text-4xl font-bold">Planes de Suscripción</h2>
@@ -312,7 +312,7 @@ export default function LandingPage() {
                 </section>
 
                 {/* STEP 5: Onboarding/Segmentation Teaser */}
-                <section className={`py-6 md:py-24 px-6 border-t md:border-[#252b46] md:block ${mobileStep === 5 ? 'block animate-in fade-in slide-in-from-right-8 duration-500 min-h-[calc(100dvh-140px)] md:flex md:flex-col md:justify-center' : 'hidden'}`}>
+                <section className={`py-6 md:py-24 px-6 border-t md:border-[#252b46] md:block ${mobileStep === 5 ? 'block animate-in fade-in slide-in-from-right-8 duration-500 min-h-[calc(100dvh-140px)] md:flex md:flex-col md:justify-center overflow-y-auto' : 'hidden'}`}>
                     <div className="max-w-4xl mx-auto text-center space-y-12 pt-4 md:pt-0 pb-16 md:pb-0">
                         <h2 className="text-2xl font-bold">Dinos quién eres y personaliza tu panel</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
