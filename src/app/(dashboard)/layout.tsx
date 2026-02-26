@@ -13,6 +13,8 @@ import {
     Zap,
     ShieldAlert
 } from "lucide-react";
+import { MobileNav } from '@/components/dashboard/MobileNav';
+import { MobileHeader } from '@/components/dashboard/MobileHeader';
 
 export default async function DashboardLayout({
     children,
@@ -26,13 +28,15 @@ export default async function DashboardLayout({
         redirect('/login');
     }
 
-    return (
-        <div className="flex flex-col lg:flex-row min-h-screen bg-[#0a0f1e] text-slate-50 relative overflow-hidden">
-            {/* Global Tactical Background */}
-            <div className="absolute inset-0 tactical-pattern opacity-10 pointer-events-none"></div>
+    const isAdmin = user?.email === process.env.ADMIN_EMAIL;
 
-            {/* Sidebar (Desktop Only) */}
-            <aside className="hidden lg:flex w-72 border-r border-[#252b46] flex-col p-8 space-y-10 bg-[#0a0f1e]/80 backdrop-blur-xl z-20 relative">
+    return (
+        <div className="flex flex-col lg:flex-row min-h-screen bg-[#0a0f1e] text-slate-50 relative">
+            {/* Global Tactical Background */}
+            <div className="fixed inset-0 tactical-pattern opacity-5 pointer-events-none z-0" />
+
+            {/* ── DESKTOP SIDEBAR ── */}
+            <aside className="hidden lg:flex w-72 border-r border-[#252b46] flex-col p-8 space-y-10 bg-[#0a0f1e]/80 backdrop-blur-xl z-20 relative sticky top-0 h-screen shrink-0">
                 <Link href="/" className="flex items-center gap-3 transition-transform hover:scale-105">
                     <div className="w-10 h-10 bg-[#162d9c] rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/20 rotate-3">
                         <TrendingUp className="text-[#bef264] w-6 h-6" />
@@ -73,7 +77,7 @@ export default async function DashboardLayout({
                         <PlusSquare size={16} className="text-[#bef264]" /> Nuevo Análisis
                     </Link>
 
-                    {user?.email === process.env.ADMIN_EMAIL && (
+                    {isAdmin && (
                         <Link href="/dashboard/admin" className="mt-4 flex items-center justify-center gap-3 px-4 py-3.5 rounded-xl bg-red-600/10 border border-red-500/20 hover:bg-red-500/20 text-red-500 font-bold transition-all shadow-xl shadow-red-900/10 active:scale-95 group uppercase tracking-widest text-[10px]">
                             <ShieldAlert size={16} /> Admin Panel
                         </Link>
@@ -89,72 +93,40 @@ export default async function DashboardLayout({
                 </div>
             </aside>
 
-            {/* Main Content Area */}
-            <div className="flex-1 flex flex-col h-screen overflow-hidden relative pb-20 lg:pb-0">
-                {/* Header/Status Bar */}
-                <header className="h-16 lg:h-16 border-b border-[#252b46] flex items-center justify-between px-6 lg:px-10 bg-[#0a0f1e]/50 backdrop-blur-md z-10 shrink-0">
-                    <div className="flex items-center gap-2 lg:gap-3">
-                        {/* Mobile Logo Visibility */}
-                        <div className="lg:hidden flex items-center gap-2 mr-4">
-                            <TrendingUp size={20} className="text-[#bef264]" />
-                            <span className="text-sm font-bold tracking-tighter uppercase leading-none">
-                                MR. <span className="text-blue-500">S</span>
-                            </span>
-                        </div>
-                        <div className="hidden sm:flex items-center gap-2">
-                            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">SISTEMA v1.0 • EN LÍNEA</span>
-                        </div>
-                    </div>
+            {/* ── MAIN CONTENT ── */}
+            <div className="flex-1 flex flex-col min-h-screen lg:h-screen lg:overflow-hidden relative z-10">
 
-                    <div className="flex items-center gap-3 md:gap-4">
-                        <div className="bg-[#161b2e] px-3 py-1.5 rounded-lg border border-[#252b46] flex items-center gap-2 max-w-[120px] sm:max-w-none">
+                {/* Mobile Header (client component — has usePathname) */}
+                <MobileHeader userEmail={user.email ?? undefined} />
+
+                {/* Desktop top bar */}
+                <header className="hidden lg:flex h-16 border-b border-[#252b46] items-center justify-between px-10 bg-[#0a0f1e]/50 backdrop-blur-md shrink-0">
+                    <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">SISTEMA v1.0 • EN LÍNEA</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <div className="bg-[#161b2e] px-3 py-1.5 rounded-lg border border-[#252b46] flex items-center gap-2">
                             <Zap size={10} className="text-[#bef264]" />
-                            <span className="text-[10px] font-bold uppercase tracking-widest truncate">{user.email?.split('@')[0]}</span>
+                            <span className="text-[10px] font-bold uppercase tracking-widest">{user.email?.split('@')[0]}</span>
                         </div>
-                        <form action="/auth/signout" method="post" className="lg:hidden">
-                            <button className="text-slate-500 hover:text-red-500 transition-colors p-2 rounded-lg hover:bg-red-500/10 flex items-center justify-center">
-                                <LogOut size={18} />
-                            </button>
-                        </form>
                     </div>
                 </header>
 
                 {/* Content scroll area */}
-                <main className="flex-1 overflow-y-auto p-6 lg:p-10 relative custom-scrollbar pb-24 lg:pb-10">
-                    <div className="max-w-7xl mx-auto min-h-full">
-                        {children}
+                <main className="flex-1 overflow-y-auto overscroll-contain relative custom-scrollbar">
+                    {/* Mobile top glow accent */}
+                    <div className="lg:hidden absolute top-0 left-1/4 w-60 h-60 bg-blue-600/5 rounded-full blur-[80px] pointer-events-none" />
+                    <div className="px-4 py-5 lg:px-10 lg:py-10 pb-28 lg:pb-10">
+                        <div className="max-w-7xl mx-auto">
+                            {children}
+                        </div>
                     </div>
                 </main>
             </div>
 
-            {/* MOBILE BOTTOM NAVBAR (Dashboard Version) */}
-            <nav className="fixed bottom-0 left-0 right-0 bg-[#0a0f1e]/95 backdrop-blur-xl border-t border-white/10 lg:hidden z-50 shadow-2xl safe-area-pb">
-                <div className="flex justify-around items-center h-[72px] px-2">
-                    <Link href="/dashboard" className="flex flex-col items-center gap-1 flex-1 transition-colors text-[#bef264]">
-                        <Home className="w-5 h-5" />
-                        <span className="text-[8px] font-bold uppercase tracking-widest">Home</span>
-                    </Link>
-                    <Link href="/dashboard/scouting" className="flex flex-col items-center gap-1 flex-1 transition-colors text-slate-500 hover:text-blue-400">
-                        <Target className="w-5 h-5" />
-                        <span className="text-[8px] font-bold uppercase tracking-widest">Scouting</span>
-                    </Link>
-                    <Link href="/dashboard/reports" className="flex flex-col items-center gap-1 flex-1 transition-colors text-slate-500 hover:text-blue-400">
-                        <FileText className="w-5 h-5" />
-                        <span className="text-[8px] font-bold uppercase tracking-widest">Reports</span>
-                    </Link>
-                    <Link href="/dashboard/profile" className="flex flex-col items-center gap-1 flex-1 transition-colors text-slate-500 hover:text-blue-400">
-                        <User className="w-5 h-5" />
-                        <span className="text-[8px] font-bold uppercase tracking-widest">Profile</span>
-                    </Link>
-                    {user?.email === process.env.ADMIN_EMAIL && (
-                        <Link href="/dashboard/admin" className="flex flex-col items-center gap-1 flex-1 transition-colors text-red-500 hover:text-red-400">
-                            <ShieldAlert className="w-5 h-5" />
-                            <span className="text-[8px] font-bold uppercase tracking-widest">Admin</span>
-                        </Link>
-                    )}
-                </div>
-            </nav>
+            {/* Mobile Bottom Navigation (client component — has usePathname) */}
+            <MobileNav isAdmin={isAdmin} />
         </div>
     );
 }
