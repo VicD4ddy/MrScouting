@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { TrendingUp } from 'lucide-react';
+import { Zap } from 'lucide-react';
 
 const ROUTE_TITLES: Record<string, string> = {
     '/dashboard': 'Inicio',
@@ -37,12 +37,9 @@ export function MobileHeader({ userEmail }: MobileHeaderProps) {
             <div className="bg-[#0a0f1e]/95 backdrop-blur-2xl border-b border-white/[0.06] px-4 h-14 flex items-center justify-between shadow-[0_2px_20px_rgba(0,0,0,0.4)]">
                 {/* Left: Brand mark */}
                 <Link href="/dashboard" className="flex items-center gap-2">
-                    <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-900/30">
-                        <TrendingUp size={14} className="text-[#bef264]" />
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-[#162d9c] rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/30 border border-white/10 group-active:scale-95 transition-transform">
+                        <Zap size={16} className="text-[#bef264] fill-[#bef264]" />
                     </div>
-                    <span className="text-xs font-black tracking-tight text-white uppercase">
-                        MR.<span className="text-blue-400">SCOUTING</span>
-                    </span>
                 </Link>
 
                 {/* Center: Current page title */}

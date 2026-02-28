@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useState } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { RadarChart as Radar } from "@/components/charts/RadarChart";
 import { AuthModal } from "@/components/shared/AuthModal";
 import Link from "next/link";
@@ -43,17 +43,90 @@ const wonderkidStats = [
 export default function LandingPage() {
     const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [mobileStep, setMobileStep] = useState(0);
     const totalSteps = 6;
 
+    // Use a flag to prevent scrolling while we are already programmatic scrolling
+    const isProgrammaticScroll = useRef(false);
+
+    // Effect to handle window resize and recalibrate scroll position
+    useEffect(() => {
+        const handleResize = () => {
+            if (scrollContainerRef.current) {
+                const container = scrollContainerRef.current;
+                const stepWidth = container.clientWidth;
+                container.scrollLeft = mobileStep * stepWidth;
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [mobileStep]);
+
+    const scrollToStep = useCallback((step: number) => {
+        if (!scrollContainerRef.current) return;
+        isProgrammaticScroll.current = true;
+        const container = scrollContainerRef.current;
+        const stepWidth = container.clientWidth;
+
+        container.scrollTo({
+            left: step * stepWidth,
+            behavior: 'smooth'
+        });
+
+        setMobileStep(step);
+
+        // Reset the flag after animation finishes (~500ms for safety)
+        setTimeout(() => {
+            isProgrammaticScroll.current = false;
+        }, 600);
+    }, []);
+
     const nextStep = () => {
-        window.scrollTo(0, 0);
-        setMobileStep(prev => Math.min(prev + 1, totalSteps - 1));
+        if (mobileStep < totalSteps - 1) {
+            scrollToStep(mobileStep + 1);
+        }
     };
+
     const prevStep = () => {
-        window.scrollTo(0, 0);
-        setMobileStep(prev => Math.max(prev - 1, 0));
+        if (mobileStep > 0) {
+            scrollToStep(mobileStep - 1);
+        }
     };
+
+    const lastScrollTime = useRef(0);
+    const prevScrollLeft = useRef(0);
+
+    const handleScroll = useCallback(() => {
+        if (!scrollContainerRef.current || isProgrammaticScroll.current) {
+            if (scrollContainerRef.current) prevScrollLeft.current = scrollContainerRef.current.scrollLeft;
+            return;
+        }
+
+        const now = Date.now();
+        if (now - lastScrollTime.current < 600) return; // Cooldown period
+
+        const container = scrollContainerRef.current;
+        const scrollLeft = container.scrollLeft;
+        const width = container.clientWidth;
+
+        if (!width) return;
+
+        const diff = scrollLeft - prevScrollLeft.current;
+        const threshold = width * 0.15; // 15% of width to trigger
+
+        if (Math.abs(diff) > threshold) {
+            const nextStepIndex = diff > 0 ? mobileStep + 1 : mobileStep - 1;
+            const clampedStep = Math.max(0, Math.min(nextStepIndex, totalSteps - 1));
+
+            if (clampedStep !== mobileStep) {
+                scrollToStep(clampedStep);
+                lastScrollTime.current = now;
+            }
+        }
+
+        prevScrollLeft.current = scrollLeft;
+    }, [mobileStep, scrollToStep, totalSteps]);
 
     const handleCheckout = async (priceId: string) => {
         try {
@@ -107,9 +180,13 @@ export default function LandingPage() {
                 </div>
             </nav>
 
-            <main className="relative z-10">
+            <main
+                ref={scrollContainerRef}
+                onScroll={handleScroll}
+                className="relative z-10 md:block flex overflow-x-auto snap-x snap-mandatory no-scrollbar md:scroll-auto scroll-smooth"
+            >
                 {/* STEP 0: Hero Section */}
-                <section className={`relative pt-10 md:pt-16 pb-24 px-6 md:min-h-[80vh] items-center md:flex ${mobileStep === 0 ? 'flex animate-in fade-in zoom-in-95 duration-500 min-h-[calc(100dvh-140px)] overflow-y-auto' : 'hidden'}`}>
+                <section className="relative pt-4 md:pt-16 pb-20 px-6 md:min-h-[80vh] items-center md:flex flex-none w-full snap-start min-h-[calc(100dvh-140px)] overflow-y-auto">
                     <div className="max-w-4xl mx-auto text-center space-y-8">
                         <div className="inline-flex items-center gap-2 bg-blue-600/10 border border-blue-600/20 text-blue-400 px-4 py-1.5 rounded-full text-xs font-bold shadow-2xl">
                             <span className="relative flex h-2 w-2">
@@ -147,13 +224,12 @@ export default function LandingPage() {
                     </div>
                 </section>
 
-                {/* Industrial Grid Wrapper for Desktop */}
-                <section className={`py-12 md:py-20 px-6 bg-[#161b2e]/30 border-y border-[#252b46]/50 relative md:block ${(mobileStep === 1 || mobileStep === 2) ? 'block animate-in fade-in slide-in-from-right-8 duration-500 min-h-[calc(100dvh-140px)] flex flex-col justify-center overflow-y-auto' : 'hidden'}`}>
+                {/* Industrial Grid Wrapper for Desktop - Split into two sections for mobile */}
+                <section className="py-4 md:py-20 px-6 bg-[#161b2e]/30 border-y border-[#252b46]/50 relative flex-none w-full snap-start md:block flex flex-col justify-center overflow-y-auto">
                     <div className="max-w-6xl mx-auto">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-
                             {/* STEP 1: Text Content */}
-                            <div className={`space-y-10 md:block ${mobileStep === 1 ? 'block' : 'hidden'}`}>
+                            <div className="space-y-10 md:block block">
                                 <div className="space-y-4">
                                     <h2 className="text-3xl font-bold">Vistazo Inicial: <span className="text-[#bef264]">Métricas de Élite</span></h2>
                                     <p className="text-slate-400 leading-relaxed">
@@ -179,8 +255,24 @@ export default function LandingPage() {
                                 </div>
                             </div>
 
+                            {/* Step 2 mockup is hidden on this desktop grid when in mobile Step 1 */}
+                            <div className="hidden lg:block relative group w-full max-w-sm mx-auto">
+                                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-[#bef264] rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+                                <div className="relative glass p-6 md:p-10 rounded-2xl border border-[#252b46] overflow-hidden bg-gradient-to-br from-white/[0.03] to-transparent shadow-2xl">
+                                    <div className="w-full flex justify-center scale-[0.80] sm:scale-100">
+                                        <Radar data={wonderkidStats} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="py-2 md:py-20 px-6 bg-[#161b2e]/30 border-y border-[#252b46]/50 relative flex-none w-full snap-start md:hidden flex flex-col justify-start overflow-y-auto">
+                    <div className="max-w-6xl mx-auto">
+                        <div className="grid grid-cols-1 items-center">
                             {/* STEP 2: Radar Chart Mockup */}
-                            <div className={`relative group md:block w-full max-w-sm mx-auto ${mobileStep === 2 ? 'block' : 'hidden'}`}>
+                            <div className="relative group block w-full max-w-sm mx-auto">
                                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-[#bef264] rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
                                 <div className="relative glass p-6 md:p-10 rounded-2xl border border-[#252b46] overflow-hidden bg-gradient-to-br from-white/[0.03] to-transparent shadow-2xl">
                                     <div className="flex justify-between items-start mb-6 md:mb-8 relative z-10">
@@ -210,7 +302,7 @@ export default function LandingPage() {
                 </section>
 
                 {/* STEP 3: Features Display */}
-                <section id="features" className={`py-6 md:py-24 px-6 md:block ${mobileStep === 3 ? 'block animate-in fade-in slide-in-from-right-8 duration-500 min-h-[calc(100dvh-140px)] md:flex md:flex-col md:justify-center overflow-y-auto' : 'hidden'}`}>
+                <section id="features" className="py-4 md:py-24 px-6 flex-none w-full snap-start md:block md:flex md:flex-col md:justify-center overflow-y-auto">
                     <div className="max-w-6xl mx-auto pt-4 md:pt-0">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                             {[
@@ -233,7 +325,7 @@ export default function LandingPage() {
                 </section>
 
                 {/* STEP 4: Subscription Matrix */}
-                <section id="pricing" className={`py-6 md:py-24 px-0 md:px-6 relative overflow-hidden bg-[#0a0f1e] md:block ${mobileStep === 4 ? 'block animate-in fade-in slide-in-from-right-8 duration-500 min-h-[calc(100dvh-140px)] md:flex md:flex-col md:justify-center overflow-y-auto' : 'hidden'}`}>
+                <section id="pricing" className="py-4 md:py-24 px-0 md:px-6 relative overflow-hidden bg-[#0a0f1e] flex-none w-full snap-start md:block md:flex md:flex-col md:justify-center overflow-y-auto">
                     <div className="max-w-6xl mx-auto space-y-10 md:space-y-16 pt-4 md:pt-0">
                         <div className="text-center space-y-4 px-6 md:px-0">
                             <h2 className="text-3xl md:text-4xl font-bold">Planes de Suscripción</h2>
@@ -312,7 +404,7 @@ export default function LandingPage() {
                 </section>
 
                 {/* STEP 5: Onboarding/Segmentation Teaser */}
-                <section className={`py-6 md:py-24 px-6 border-t md:border-[#252b46] md:block ${mobileStep === 5 ? 'block animate-in fade-in slide-in-from-right-8 duration-500 min-h-[calc(100dvh-140px)] md:flex md:flex-col md:justify-center overflow-y-auto' : 'hidden'}`}>
+                <section className="py-4 md:py-24 px-6 border-t md:border-[#252b46] flex-none w-full snap-start md:block md:flex md:flex-col md:justify-center overflow-y-auto">
                     <div className="max-w-4xl mx-auto text-center space-y-12 pt-4 md:pt-0 pb-16 md:pb-0">
                         <h2 className="text-2xl font-bold">Dinos quién eres y personaliza tu panel</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -355,7 +447,7 @@ export default function LandingPage() {
             {/* MOBILE STORY CONTROLS */}
             <nav className="fixed bottom-0 left-0 right-0 bg-[#0a0f1e] border-t border-[#252b46] md:hidden z-50 px-6 py-4 flex items-center justify-between safe-area-pb shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
                 <button
-                    onClick={prevStep}
+                    onClick={() => mobileStep > 0 && scrollToStep(mobileStep - 1)}
                     className={`text-slate-400 font-bold p-2 text-sm uppercase tracking-widest transition-opacity ${mobileStep === 0 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
                 >
                     Atrás
@@ -377,7 +469,7 @@ export default function LandingPage() {
                         </button>
                     ) : (
                         <button
-                            onClick={nextStep}
+                            onClick={() => mobileStep < totalSteps - 1 && scrollToStep(mobileStep + 1)}
                             className="text-white font-bold p-2 text-sm uppercase tracking-widest flex items-center gap-1"
                         >
                             Sig <ChevronRight size={16} />

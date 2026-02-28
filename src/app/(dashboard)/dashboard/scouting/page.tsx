@@ -2,31 +2,54 @@
 
 import { useState, useEffect } from 'react';
 import { RadarChart as Radar } from "@/components/charts/RadarChart";
-import { Search, Filter, TrendingUp, Shield, Users, Target, ChevronRight, MapPin, FileText, Loader2, Zap } from "lucide-react";
+import { Search, TrendingUp, Target, ChevronRight, MapPin, FileText, Loader2, Zap } from "lucide-react";
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 
 export default function ScoutingPage() {
     const [players, setPlayers] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [activeTag, setActiveTag] = useState('Todos');
     const supabase = createClient();
 
     useEffect(() => {
         const fetchPlayers = async () => {
-            const { data, error } = await supabase
+            setIsLoading(true);
+            let query = supabase
                 .from('players')
                 .select('*')
                 .order('created_at', { ascending: false });
 
+            // Apply category filter if not 'Todos'
+            if (activeTag === 'U21 Promesas') {
+                query = query.lte('age', 21);
+            } else if (activeTag !== 'Todos') {
+                query = query.ilike('team', `%${activeTag}%`);
+            }
+
+            const { data, error } = await query;
+
             if (error) {
                 console.error("Error fetching players:", error);
             } else if (data) {
-                setPlayers(data);
+                // Client-side search for name/club/id
+                const filtered = data.filter((p: any) =>
+                    p.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    p.team?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    p.id.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                setPlayers(filtered);
             }
             setIsLoading(false);
         };
         fetchPlayers();
-    }, []);
+    }, [searchTerm, activeTag]);
+
+    const resetFilters = () => {
+        setSearchTerm('');
+        setActiveTag('Todos');
+    };
 
     return (
         <div className="space-y-10 pb-20">
@@ -47,21 +70,21 @@ export default function ScoutingPage() {
                         <input
                             type="text"
                             placeholder="Buscar por nombre, club o ID..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full bg-[#0a0f1e] border border-[#252b46] rounded-2xl pl-12 pr-4 py-4 text-sm focus:outline-none focus:border-blue-500/50 transition-all font-medium text-white placeholder:text-slate-800 shadow-inner"
                         />
                     </div>
-                    <button className="p-4 bg-slate-900 border border-[#252b46] rounded-2xl text-slate-400 hover:text-[#bef264] hover:bg-[#bef264]/5 transition-all">
-                        <Filter className="w-5 h-5" />
-                    </button>
                 </div>
             </div>
 
             {/* Tactical Pills */}
             <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar border-b border-[#252b46]/50">
-                {['Todos', 'U21 Promesas', 'La Liga', 'Premier League', 'Serie A', 'Ligue 1'].map((tag, i) => (
+                {['Todos', 'U21 Promesas', 'La Liga', 'Premier League', 'Serie A', 'Ligue 1'].map((tag) => (
                     <button
                         key={tag}
-                        className={`whitespace-nowrap px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all border ${i === 0
+                        onClick={() => setActiveTag(tag)}
+                        className={`whitespace-nowrap px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all border ${activeTag === tag
                             ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-900/20'
                             : 'bg-[#0a0f1e] border-[#252b46] text-slate-500 hover:border-slate-600'
                             }`}
@@ -78,15 +101,26 @@ export default function ScoutingPage() {
                     <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Cargando Base de Datos...</p>
                 </div>
             ) : players.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-20 glass border border-[#252b46] rounded-3xl">
-                    <Shield className="w-12 h-12 text-slate-600 mb-4" />
-                    <h3 className="text-lg font-bold text-slate-300">Sin Datos Disponibles</h3>
-                    <p className="text-slate-500 text-sm">No se encontraron jugadores en la base de datos de Supabase.</p>
+                <div className="flex flex-col items-center justify-center py-20 glass border border-[#252b46] rounded-[40px] text-center space-y-6 bg-gradient-to-b from-white/[0.02] to-transparent">
+                    <div className="w-20 h-20 bg-slate-900/50 rounded-3xl flex items-center justify-center border border-white/5">
+                        <Target className="w-10 h-10 text-slate-700" />
+                    </div>
+                    <div className="space-y-2">
+                        <h3 className="text-lg font-bold text-white uppercase tracking-tight">Sin registros encontrados</h3>
+                        <p className="text-slate-500 text-[10px] font-bold uppercase tracking-[3px] max-w-xs mx-auto">
+                            Ajusta los parámetros de búsqueda o limpia los filtros para reintentar.
+                        </p>
+                    </div>
+                    <button
+                        onClick={resetFilters}
+                        className="px-8 py-3 bg-white/5 border border-white/10 rounded-xl text-[10px] font-bold uppercase tracking-widest text-[#bef264] hover:bg-[#bef264] hover:text-[#0a0f1e] transition-all"
+                    >
+                        Limpiar Todos los Filtros
+                    </button>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                     {players.map((player, index) => {
-                        // Generate mock radar stats dynamically to maintain UI aesthetic
                         const dynamicStats = [
                             { attribute: 'Ritmo', value: Math.min(99, (player.overall_rating || 80) + 4) },
                             { attribute: 'Tiro', value: Math.max(50, (player.overall_rating || 80) - 5) },
@@ -122,7 +156,6 @@ export default function ScoutingPage() {
                                     </div>
                                 </div>
 
-                                {/* Visualization */}
                                 <div className="px-8 py-2 flex-1">
                                     <div className="bg-[#0a0f1e]/60 rounded-[32px] p-4 relative group-hover:bg-[#0a0f1e]/80 transition-colors">
                                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-blue-500/5 rounded-full blur-[60px] pointer-events-none group-hover:bg-blue-500/15"></div>
@@ -130,7 +163,6 @@ export default function ScoutingPage() {
                                     </div>
                                 </div>
 
-                                {/* Footer Card */}
                                 <div className="p-8 pt-6 space-y-6">
                                     <div className="flex items-center justify-between border-t border-[#252b46] pt-6">
                                         <div className="flex items-center gap-3">
@@ -142,9 +174,9 @@ export default function ScoutingPage() {
                                         <ChevronRight className="text-slate-700 group-hover:text-blue-500 transition-colors" size={20} />
                                     </div>
 
-                                    <button className="w-full py-5 bg-[#162d9c] hover:bg-blue-800 text-white font-bold rounded-2xl text-[10px] uppercase tracking-[3px] transition-all shadow-xl shadow-blue-900/30 active:scale-[0.98] flex items-center justify-center gap-3">
-                                        <FileText size={14} className="text-[#bef264]" /> Abrir Informe Técnico
-                                    </button>
+                                    <div className="w-full py-5 bg-[#162d9c]/10 text-blue-400 border border-blue-600/20 font-bold rounded-2xl text-[10px] uppercase tracking-[3px] transition-all flex items-center justify-center gap-3">
+                                        <FileText size={14} className="text-blue-400" /> Ver Perfil Élite
+                                    </div>
                                 </div>
                             </Link>
                         );
@@ -157,7 +189,7 @@ export default function ScoutingPage() {
                 <div className="absolute top-0 left-0 w-1 h-full bg-[#bef264]"></div>
                 <div className="space-y-4">
                     <div className="flex items-center gap-3 text-[#bef264]">
-                        <Users size={20} />
+                        <Zap size={20} />
                         <h3 className="text-sm font-bold uppercase tracking-[4px]">Servicio de Scouting Bajo Demanda</h3>
                     </div>
                     <p className="text-slate-400 max-w-lg text-xs leading-relaxed font-medium">

@@ -85,7 +85,7 @@ export default function CreateContentPage() {
             }
         }
 
-        router.push('/dashboard/reports');
+        router.push('/dashboard');
     };
 
     return (
@@ -123,7 +123,7 @@ export default function CreateContentPage() {
                                     <Layout size={14} className="text-blue-500" /> Clasificación de Datos
                                 </label>
                                 <div className="grid grid-cols-1 gap-2">
-                                    {['articulo', 'analisis_jugador', 'promesas'].map((cat) => (
+                                    {['articulo', 'analisis_tactico', 'analisis_jugador', 'promesas'].map((cat) => (
                                         <button
                                             key={cat}
                                             type="button"
