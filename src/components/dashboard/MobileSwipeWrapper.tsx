@@ -7,6 +7,7 @@ const MAIN_TABS = [
     '/dashboard',           // Inicio
     '/dashboard/scouting',  // Scouting
     '/dashboard/reports',   // Informes
+    '/dashboard/messages',  // Mensajes
     '/dashboard/profile'    // Perfil
 ];
 

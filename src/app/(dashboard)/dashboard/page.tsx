@@ -172,18 +172,18 @@ function PostCard({ post, userId }: { post: any, userId: string | null }) {
         <article className="block bg-[#0a0f1e] md:bg-[#1a1f2e] md:border md:border-white/5 md:rounded-[32px] overflow-hidden transition-all group border-b border-white/[0.05] md:border-b-white/5 pb-4 md:pb-0 mb-2 md:mb-0">
             {/* Social Header */}
             <div className="px-4 py-3 md:p-6 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center text-xs font-bold text-white uppercase shadow-inner shrink-0">
+                <Link href={`/dashboard/profile/${post.author_id}`} className="flex items-center gap-3 group/author">
+                    <div className="w-10 h-10 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center text-xs font-bold text-white uppercase shadow-inner shrink-0 group-hover/author:border-blue-500/50 transition-colors">
                         {initials}
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-white text-sm font-bold flex items-center gap-1.5">
+                        <span className="text-white text-sm font-bold flex items-center gap-1.5 group-hover/author:text-blue-300 transition-colors">
                             {authorName}
                             <span className="text-slate-500 font-normal text-xs">· {timeAgo}</span>
                         </span>
                         <span className="text-[#0081ff] text-[10px] font-bold tracking-wider uppercase">{config.label}</span>
                     </div>
-                </div>
+                </Link>
                 <button className="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-white hover:bg-white/5 rounded-full transition-colors">
                     <MoreHorizontal size={18} />
                 </button>

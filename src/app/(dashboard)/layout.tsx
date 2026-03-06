@@ -2,10 +2,8 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { TrendingUp, Zap } from "lucide-react";
-import { MobileNav } from '@/components/dashboard/MobileNav';
-import { MobileHeader } from '@/components/dashboard/MobileHeader';
+import { MobileLayoutClient } from '@/components/dashboard/MobileLayoutClient';
 import { DashboardSidebarNav } from '@/components/dashboard/DashboardSidebarNav';
-import { MobileSwipeWrapper } from '@/components/dashboard/MobileSwipeWrapper';
 
 export default async function DashboardLayout({
     children,
@@ -28,20 +26,10 @@ export default async function DashboardLayout({
                 {/* Global Tactical Background */}
                 <div className="fixed inset-0 tactical-pattern opacity-5 pointer-events-none z-0" />
 
-                {/* Mobile Header */}
-                <MobileHeader userEmail={user.email ?? undefined} />
-
-                {/* Scrollable content */}
-                <main className="flex-1 relative z-10 px-4 py-5 pb-28 overflow-x-hidden">
-                    <MobileSwipeWrapper>
-                        <div className="max-w-7xl mx-auto">
-                            {children}
-                        </div>
-                    </MobileSwipeWrapper>
-                </main>
-
-                {/* Mobile Bottom Nav */}
-                <MobileNav isAdmin={isAdmin} />
+                {/* MobileLayoutClient handles: header / swipe / nav or full-screen based on route */}
+                <MobileLayoutClient userEmail={user.email ?? undefined} isAdmin={isAdmin}>
+                    {children}
+                </MobileLayoutClient>
             </div>
 
             {/* ── DESKTOP LAYOUT ── */}

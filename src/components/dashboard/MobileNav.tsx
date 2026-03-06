@@ -2,12 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Target, FileText, User, ShieldAlert } from 'lucide-react';
+import { Home, Target, FileText, User, ShieldAlert, MessageSquare } from 'lucide-react';
+import { useUnreadMessages } from '@/hooks/useUnreadMessages';
 
 const NAV_ITEMS = [
     { href: '/dashboard', label: 'Inicio', icon: Home, exact: true },
     { href: '/dashboard/scouting', label: 'Scouting', icon: Target, exact: false },
     { href: '/dashboard/reports', label: 'Informes', icon: FileText, exact: false },
+    { href: '/dashboard/messages', label: 'Mensajes', icon: MessageSquare, exact: false },
     { href: '/dashboard/profile', label: 'Perfil', icon: User, exact: false },
 ];
 
@@ -17,6 +19,7 @@ interface MobileNavProps {
 
 export function MobileNav({ isAdmin }: MobileNavProps) {
     const pathname = usePathname();
+    const { unreadCount } = useUnreadMessages();
 
     const isActive = (href: string, exact: boolean) => {
         if (exact) return pathname === href;
@@ -32,17 +35,24 @@ export function MobileNav({ isAdmin }: MobileNavProps) {
             <div className="flex justify-around items-center h-[68px] px-1 relative">
                 {allItems.map(({ href, label, icon: Icon, exact }) => {
                     const active = isActive(href, exact);
+                    const isMessages = href === '/dashboard/messages';
                     return (
                         <Link
                             key={href}
                             href={href}
                             className="flex flex-col items-center justify-center flex-1 h-full gap-1.5 relative group"
                         >
-                            <div className={`transition-all duration-300 ${active ? 'text-[#0081ff] scale-110' : 'text-slate-600'}`}>
+                            <div className={`relative transition-all duration-300 ${active ? 'text-[#0081ff] scale-110' : 'text-slate-600'}`}>
                                 <Icon
                                     size={20}
                                     strokeWidth={active ? 2.5 : 1.8}
                                 />
+                                {/* Unread badge — only on Messages icon */}
+                                {isMessages && unreadCount > 0 && (
+                                    <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-0.5 bg-red-500 rounded-full flex items-center justify-center text-[9px] font-black text-white leading-none shadow-[0_0_8px_rgba(239,68,68,0.7)] animate-pulse">
+                                        {unreadCount > 9 ? '9+' : unreadCount}
+                                    </span>
+                                )}
                             </div>
                             <span className={`text-[9px] font-bold uppercase tracking-[2px] transition-colors duration-300 ${active ? 'text-[#0081ff]' : 'text-slate-600'}`}>
                                 {label}
